@@ -1,11 +1,14 @@
 const express = require("express");
+
 const router = express.Router();
-const burger = require("../model/burger");
 
+// Import the model (cat.js) to use its database functions.
+const burgers = require("../model/burger.js");
 
+// Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-  burger.all(function (data) {
-    let hbsObject = {
+  burgers.all(function(data) {
+    var hbsObject = {
       burgers: data
     };
     console.log(hbsObject);
@@ -14,35 +17,35 @@ router.get("/", function(req, res) {
 });
 
 router.post("/api/burgers", function(req, res) {
-  console.log(res.body);
-  burger.create([
-    "burger_name", "devoured"
-  ], [
-    req.body.burger_name, req.body.devoured
-  ], function (result) {
-    console.log(result);
+  burgers.create({name: req.body.burger_name, Eaten: req.body.devoured}, function(result) {
+    // Send back the ID of the new quote
     res.json({ id: result.insertId });
   });
 });
 
-router.put("/api/burgers/:id", function (req, res) {
-  let condition = "id = " + req.params.id;
+router.put("/api/burgers/:id", function(req, res) {
+  const condition = {id: req.params.id};
 
   console.log("condition", condition);
-
-  burger.update(
-    {
-      devoured: req.body.devoured
-    },
+  console.log(req.body.devoured);
+  const updateValues = {
+    // change boolean to tiny int
+    devoured: (req.body.devoured === "true" ? 1 : 0)
+  };
+  console.log(updateValues);
+  burgers.update(
+    updateValues,
     condition,
-    function (result) {
-      if (result.changedRows == 0) {
+    function(result) {
+      if (result.affectedRows === 0) {
         // If no rows were changed, then the ID must not exist, so 404
         return res.status(404).end();
       }
       res.status(200).end();
+
     }
   );
 });
 
+// Export routes for server.js to use.
 module.exports = router;
