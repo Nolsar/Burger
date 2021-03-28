@@ -46,9 +46,6 @@ $ heroku create burger-uft
 $ git push heroku master
 ```
 
-## Walkthroughs
-<!-- ![GIF](https://github.com/singha53/burger/blob/master/public/assets/images/burger.gif) -->
-
 ## Programming/Scripting Languages
 ### Front-end
 - HTML, CSS (Bootstrap)
@@ -68,7 +65,7 @@ branch. Pull requests are warmly welcome.
 ## Links
 
 - Repository: https://github.com/Nolsar/Burger
-<!-- - Deployed site: https://burger-uft.herokuapp.com/ -->
+<!-- - Deployed site: - -->
 
 ## Licensing
 
